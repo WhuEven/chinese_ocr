@@ -8,7 +8,7 @@ from PIL import Image
 
 sys.path.append(os.getcwd() + '/ctpn')
 from ctpn.text_detect import text_detect
-from lib.fast_rcnn.config import cfg_from_file
+from ctpn.lib.fast_rcnn.config import cfg_from_file
 from densenet.model import predict as keras_densenet
 
 
@@ -42,7 +42,7 @@ def charRec(img, text_recs, adjust=False):
    加载OCR模型，进行字符识别
    """
    results = {}
-   xDim, yDim = img.shape[1], img.shape[0]
+   xDim, yDim = img.shape[1], img.shape[0]#图像的宽 高
     
    for index, rec in enumerate(text_recs):
        xlength = int((rec[6] - rec[0]) * 0.1)
@@ -79,7 +79,7 @@ def model(img, adjust=False):
     @img: 图片
     @adjust: 是否调整文字识别结果
     """
-    cfg_from_file('./ctpn/ctpn/text.yml')
+    cfg_from_file('./ctpn/ctpn/text.yml')#加载预定义模型训练/测试超参数
     text_recs, img_framed, img = text_detect(img)
     text_recs = sort_box(text_recs)
     result = charRec(img, text_recs, adjust)
